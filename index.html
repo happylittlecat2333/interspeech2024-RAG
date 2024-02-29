@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Retrieval Augmented Generation in Prompt-based Text-to-Speech Synthesis with Context-Aware Contrastive Language-Audio Pretraining</title>
+<meta name="generator" content="Jekyll v3.9.0">
+<meta property="og:title" content="Retrieval Augmented Generation in Prompt-based Text-to-Speech Synthesis with Context-Aware Contrastive Language-Audio Pretraining">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://happylittlecat2333.github.io/interspeech2024-RAG/">
+<meta name="twitter:card" content="summary">
+<!-- End Jekyll SEO tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body data-new-gr-c-s-check-loaded="14.1023.0" data-gr-ext-installed="">
+    <section class="page-header">
+    <!-- <h1 class="project-name"></h1>
+    <h2 class="project-tagline"></h2> -->
+      
+      
+    </section>
+
+    <section class="main-content">
+      <h1 id=""><center> Retrieval Augmented Generation in Prompt-based Text-to-Speech Synthesis with Context-Aware Contrastive Language-Audio Pretraining</center></h1>
+      <!-- <h1 id=""><center> Evaluation </center></h1> -->
+      
+
+<!-- <center> Jinlong Xue<sup>1</sup>, Yayue Deng<sup>1</sup>, Fengping Wang<sup>1</sup>, Ya Li<sup>1</sup>, Yingming Gao<sup>1</sup>, Jianhua Tao<sup>2</sup>, Jianqing Sun<sup>3</sup>, Jiaen Liang<sup>3</sup> </center>
+<br>
+<center> <sup>1</sup> Beijing University of Posts and Telecommunications, Beijing, China</center>
+<center> <sup>2</sup> NLPR, Institute of Automation, Chinese Academy of Sciences, Beijing, China</center>
+<center> <sup>3</sup> Unisound AI Technology Co., Ltd, Beijing, China</center> -->
+
+
+
+<h2 id="abstract">Abstract</h2>
+<p>Recent prompt-based text-to-speech (TTS) models can clone an unseen speaker using only a short speech prompt. They leverage a strong in-context ability to mimic the acoustic features from speech prompts, including speaker style, prosody, and emotion. Therefore, the selection of a speech prompt greatly influences the generated speech, akin to the importance of a prompt in large language models
+(LLMs). However, current prompt-based TTS models choose the speech prompt manually or simply at random. Hence, in this paper, we adapt retrieval augmented generation (RAG) from LLMs to prompt-based TTS. Unlike traditional RAG methods, we additionally consider contextual information during the retrieval process and present a Context-Aware Contrastive Language-Audio Pre-training (CA-CLAP) model as
+encoders to extract context-aware, style-related features. The objective and subjective evaluations demonstrate that our proposed RAG method outperforms baselines, and our CA-CLAP can understand the context and achieve better results than text-only retrieval methods.</p>
+
+<h2><p class="toc_title">Contents</p></h2>
+<div id="toc_container">
+<ul>
+  <li><a href="#1">Model Architecture</a></li>
+  <li><a href="#2">Evaluation</a></li>
+</ul>
+</div>
+
+<a name="1"><h2>Model Architecture</h2></a>
+<div>
+  <br />
+  <p style="text-align: center">
+    <img src="./overview.png" width="800" height="350"/>
+  </p>
+  <p>
+  <figcaption style="text-align:center;">
+    </font>
+    <font size=3>
+      Figure 1: An overview structure of RAG-TTS
+    </font>
+  </figcaption><br><br>
+  </p>
+
+  <br />
+  <p style="text-align: center">
+    <img src="./model.png" width="1100" height="400" />
+  </p>
+  <p>
+  <figcaption style="text-align:center;">
+    </font>
+    <font size=3>
+      Figure 2: Left: An Overview of Context-Aware CLAP. Right: An illustration of the inference process of Prompt-based TTS
+    </font>
+  </figcaption><br><br>
+  </p>
+</div>
+
+
+<a name="2"><h2>Evaluation</h2></a>
+<p>
+<b>Groundtruth</b>: the groundtruth speech. <br>
+<b>Self</b>: use the groundtruth text-audio pair as prompt, it serves as upper bound of prompt-based TTS performance. <br>
+<b>Random</b>: randomly select one text-audio pair as prompt text and prompt speech.  <br>
+<b>MiniLM</b>: adopt text-only embedding model all-MiniLM-L6-v2 for retrieval.  <br>
+<b>CoROM</b>: adopt text-only embedding model corom_sentence-embedding_chinese-base for retrieval. <br>
+<b>Proposed</b>: our proposed method using Context-Enhanced CLAP for retrieval. <br>
+</p>
+
+
+<h3>Sample 0</h3>
+<p>Text: 不过总之，我觉得一味鼓吹西洋人那种积极进取的精神。</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>groundtruth</strong></th>
+      <th style="text-align: center"><strong>Self</strong></th>
+      <th style="text-align: center"><strong>Random</strong></th>
+      <th style="text-align: center"><strong>MiniLM</strong></th>
+      <th style="text-align: center"><strong>CoROM</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/26/gt.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/26/self.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/26/random.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/26/minilm.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/26/corom.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/26/caclap.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<br>
+
+
+<h3>Sample 1</h3>
+<p>Text: 唐颜孝子挣脱了刑警，抱住丈夫的手臂。</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>groundtruth</strong></th>
+      <th style="text-align: center"><strong>Self</strong></th>
+      <th style="text-align: center"><strong>Random</strong></th>
+      <th style="text-align: center"><strong>MiniLM</strong></th>
+      <th style="text-align: center"><strong>CoROM</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/24/gt.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/24/self.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/24/random.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/24/minilm.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/24/corom.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/24/caclap.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<br>
+
+
+<h3>Sample 2</h3>
+<p>Text: 尽管多元文化的概念听起来很美好。</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>groundtruth</strong></th>
+      <th style="text-align: center"><strong>Self</strong></th>
+      <th style="text-align: center"><strong>Random</strong></th>
+      <th style="text-align: center"><strong>MiniLM</strong></th>
+      <th style="text-align: center"><strong>CoROM</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/23/gt.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/23/self.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/23/random.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/23/minilm.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/23/corom.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/23/caclap.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<br>
+
+
+<h3>Sample 3</h3>
+<p>Text: 哼说来说去。</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>groundtruth</strong></th>
+      <th style="text-align: center"><strong>Self</strong></th>
+      <th style="text-align: center"><strong>Random</strong></th>
+      <th style="text-align: center"><strong>MiniLM</strong></th>
+      <th style="text-align: center"><strong>CoROM</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/21/gt.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/21/self.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/21/random.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/21/minilm.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/21/corom.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/21/caclap.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<br>
+
+
+<h3>Sample 4</h3>
+<p>Text: 但是已经有人把神父从我的手里抢出去。</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>groundtruth</strong></th>
+      <th style="text-align: center"><strong>Self</strong></th>
+      <th style="text-align: center"><strong>Random</strong></th>
+      <th style="text-align: center"><strong>MiniLM</strong></th>
+      <th style="text-align: center"><strong>CoROM</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/2/gt.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/2/self.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/2/random.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/2/minilm.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/2/corom.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/2/caclap.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<br>
+
+
+<h3>Sample 5</h3>
+<p>Text: 换了一辆灰色轿车。</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>groundtruth</strong></th>
+      <th style="text-align: center"><strong>Self</strong></th>
+      <th style="text-align: center"><strong>Random</strong></th>
+      <th style="text-align: center"><strong>MiniLM</strong></th>
+      <th style="text-align: center"><strong>CoROM</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/3/gt.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/3/self.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/3/random.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/3/minilm.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/3/corom.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/3/caclap.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<br>
+
+
+<h3>Sample 6</h3>
+<p>Text: 吵架了，自杀了，暴动了。</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>groundtruth</strong></th>
+      <th style="text-align: center"><strong>Self</strong></th>
+      <th style="text-align: center"><strong>Random</strong></th>
+      <th style="text-align: center"><strong>MiniLM</strong></th>
+      <th style="text-align: center"><strong>CoROM</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/4/gt.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/4/self.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/4/random.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/4/minilm.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/4/corom.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/4/caclap.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<br>
+
+
+<h3>Sample 7</h3>
+<p>Text: 而在内心深处，我又是什么样子？</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>groundtruth</strong></th>
+      <th style="text-align: center"><strong>Self</strong></th>
+      <th style="text-align: center"><strong>Random</strong></th>
+      <th style="text-align: center"><strong>MiniLM</strong></th>
+      <th style="text-align: center"><strong>CoROM</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/6/gt.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/6/self.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/6/random.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/6/minilm.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/6/corom.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/6/caclap.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<br>
+
+
+<h3>Sample 8</h3>
+<p>Text: 仔细看去，一男一女，相貌都很俊秀。</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>groundtruth</strong></th>
+      <th style="text-align: center"><strong>Self</strong></th>
+      <th style="text-align: center"><strong>Random</strong></th>
+      <th style="text-align: center"><strong>MiniLM</strong></th>
+      <th style="text-align: center"><strong>CoROM</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/14/gt.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/14/self.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/14/random.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/14/minilm.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/14/corom.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/14/caclap.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<br>
+
+
+<h3>Sample 9</h3>
+<p>Text: 你无法阻止我们。</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>groundtruth</strong></th>
+      <th style="text-align: center"><strong>Self</strong></th>
+      <th style="text-align: center"><strong>Random</strong></th>
+      <th style="text-align: center"><strong>MiniLM</strong></th>
+      <th style="text-align: center"><strong>CoROM</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/16/gt.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/16/self.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/16/random.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/16/minilm.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/16/corom.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/16/caclap.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<br>
+
+
+<h3>Sample 10</h3>
+<p>Text: 所谓蛋白质，也就是空气中的氮、氢氧等元素合成。</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>groundtruth</strong></th>
+      <th style="text-align: center"><strong>Self</strong></th>
+      <th style="text-align: center"><strong>Random</strong></th>
+      <th style="text-align: center"><strong>MiniLM</strong></th>
+      <th style="text-align: center"><strong>CoROM</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="samples/27/gt.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/27/self.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/27/random.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/27/minilm.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/27/corom.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/27/caclap.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<br>
+
+
+
+      <footer class="site-footer">
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub Pages</a>.</span>
+      </footer>
+    </section>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
